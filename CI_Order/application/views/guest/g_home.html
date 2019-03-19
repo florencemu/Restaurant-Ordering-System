@@ -1,0 +1,40 @@
+<html>
+
+<head>
+<h1>顾客主页</h1>
+
+<form method="POST" action="<?php  echo  base_url('guest/g_home/take_num')  ?>">
+
+ 		<span class="label">昵称：</span>
+        <span class="txt"><input type="text" name="name" placeholder="请输入您的称谓"/></span>
+        <br>
+        <span class="label">联系方式：</span>
+        <span class="txt"><input type="text" name="phone"placeholder="请输入您的联系方式"/></span>
+        <br>
+        <span class="label">就餐人数：</span>
+        <select name="num">
+		<option value="1">1~5人</option>
+		<option value="6">5~10人</option>	
+		<option value="11">10人以上</option>
+		<option value="21">包间</option>
+		</select>
+        <br>
+        <input type="submit" value="点击取号">
+
+</form>
+
+=================================================================
+
+
+<form method="POST" action="<?php  echo  base_url('guest/g_home/select')  ?>">
+
+ 	
+        <span class="label">联系方式：</span>
+        <span class="txt"><input type="text" name="phone"placeholder="请输入您的联系方式"/></span>
+        <br>
+       
+        <input type="submit" value="查询状态">
+        
+</form>
+
+</html>
