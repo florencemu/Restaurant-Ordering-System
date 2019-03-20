@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>取号排队</title>
+
+<style type="text/css">
+
+*{
+		margin: 0;
+		padding: 0;
+	}
+	
+</style>
+<link rel="stylesheet" type="text/css" href="<?php  echo base_url() .'style/' ?>css/res.css">
+
+</head>
+<?php  echo base_url() .'style/' ?>css/res.css?>
+<body id="bod">
+	<div  class="top">
+		<div class="top-l"><img src=""></div>
+		<div  class="top-r"><h1></h1></div>
+	</div>
+	<div class="fom" id="dv">
+		<form method="POST" action="<?php  echo  base_url('guest/g_home/take_num')  ?>">
+
+ 		<span class="label">昵称：</span>
+        <span class="txt"><input type="text" name="name" placeholder="请输入您的称谓"/></span>
+        <br>
+        <span class="label">联系方式：</span>
+        <span class="txt"><input type="text" name="phone"placeholder="请输入您的联系方式"/></span>
+        <br>
+        <span class="label">就餐人数：</span>
+        <select name="num">
+		<option value="1">1~5人</option>
+		<option value="6">5~10人</option>	
+		<option value="11">10人以上</option>
+		<option value="21">包间</option>
+		</select>
+        <br>
+        <input type="submit" value="点击取号">
+
+</form>
+	</div>
+
+
+</body>
+
+<script type="text/javascript">
+	  document.getElementById("btn").onclick=function(){
+	  	var dvobj=document.getElementById("dv");
+	  	var obj1=document.getElementById("nam");
+	  	var obj2=document.getElementById("sel");
+	  	var obj3=document.getElementById("con");
+	  	if(obj1.value.length==0||obj3.value.length==0){
+	  		alert("请完善信息");
+	  		return;
+	  	}
+	  		
+	  	if(obj3.value.length!==11){
+	  		alert("手机号必须为11位");
+	  		return;
+	  	}
+                 	if( document.getElementById("dv1")){
+                 	dvobj.removeChild(document.getElementById("dv1"));
+                 	}
+                        var obj=document.createElement("div");
+                        obj.id="dv1";
+                       obj.className="d";
+                        obj.innerHTML="<u>已排队,点击查看</u>";
+                       dvobj.appendChild(obj);
+                        obj.onclick=function(){
+                        	var bod=document.getElementById("bod");
+                   	if( document.getElementById("dv2")){
+                 	bod.removeChild(document.getElementById("dv2"));
+                 	}
+                        var objdv2=document.createElement("div");
+                        objdv2.id="dv2";
+                        objdv2.innerHTML="联系方式:<input type='text'><br><br><br><br><br><br><input type='button' value='查看状态'>";
+                       bod.appendChild(objdv2);
+                      
+                      }
+                   }
+                   
+                        
+             
+              
+</script>
+	  
+</html>

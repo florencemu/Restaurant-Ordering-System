@@ -1,10 +1,40 @@
-<html>
 
+
+<!doctype html>
+<html lang="en">
 <head>
-<h1>主页</h1>
+	<meta charset="UTF-8">
+	<title>系统主页</title>
+	<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	
+	</style>
+	<link rel="stylesheet" type="text/css" href="<?php  echo base_url() .'style/' ?>css/res.css">
 
+</head>
 
-<a href="<?php  echo  base_url() .'guest/g_home'  ?>">顾客</a>
-<a href="<?php  echo  site_url() .'/waiter/w_home'  ?>">前台</a>
-<a href="<?php  echo  site_url() .'/cook/c_home'  ?>">厨师</a>
+<body style="background-color:brown">
+	<div  class="top">
+		<div class="top-l"><img src=""></div>
+		<div  class="top-r"><h1>在线点餐系统</h1></div>
+	</div>
+	<div class="main">
+		<div class="main-l" id="customer">顾客取号</div>
+		
+		<div class="main-l">管理员入口</div>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	
+                 document.getElementById("customer").onclick=function(){
+                 	
+                       window.location="<?php  echo  base_url() .'guest/g_home'  ?>" ;
+                       console.log("gau");
+                }
+
+</script>
 </html>

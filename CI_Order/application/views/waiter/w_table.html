@@ -1,0 +1,29 @@
+<html>
+
+<head>
+<h1>座位分布</h1>
+
+<table id="tab1" border="1" width="500" cellspacing="1" >
+	<thead>
+	<tr>
+			<th>桌号</th>
+			<th>状态</th>
+			<th>顾客id</th>
+			<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		 		<?php  foreach($table as $item): ?>
+		 	<tr>
+		 		
+				<td><?php echo $item['table_id'] ?></td>
+				<td><?php echo $item['table_statu'] ?></td>
+				<td><?php echo $item['guest_id'] ?></td>
+				<td><a href="<?php echo base_url('waiter/W_home/choose_table').'?'.'id='.$item['table_id']; ?>" style="color: #8B636C" >选择</a></td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+</table>
+
+</head>
+</html>

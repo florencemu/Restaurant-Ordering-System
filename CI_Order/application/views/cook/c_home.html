@@ -1,10 +1,28 @@
 <html>
 
 <head>
-<h1>厨师主页</h1>
+<h1>待做菜品</h1>
 
+<table id="tab1" border="1" width="500" cellspacing="1" >
+	<thead>
+	<tr>
+			<th>编号</th>
+			<th>名称</th>
+			<th>数量</th>
+			<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		 		<?php  foreach($food as $item): ?>
+		 	<tr>
+		 		<td><?php echo $item['food_id'] ?></td>
+				<td><?php echo $item['food_name'] ?></td>
+				<td><?php echo $item['to_do'] ?></td>
+				<td><a href="<?php echo base_url('cook/C_home/finish_food').'?'.'id='.$item['food_id']; ?>" style="color: #8B636C" >完成</a></td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+</table>
 
-<a href="<?php  echo  site_url() .'/guest/g_home'  ?>">顾客</a>
-<a href="<?php  echo  site_url() .'/waiter/w_home'  ?>">前台</a>
-<a href="<?php  echo  site_url() .'/cook/c_home'  ?>">厨师</a>
+</head>
 </html>

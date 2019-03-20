@@ -1,40 +1,138 @@
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-<h1>顾客主页</h1>
+        <meta charset="UTF-8">
+        <title>取号排队</title>
 
-<form method="POST" action="<?php  echo  base_url('guest/g_home/take_num')  ?>">
+<style type="text/css">
 
- 		<span class="label">昵称：</span>
-        <span class="txt"><input type="text" name="name" placeholder="请输入您的称谓"/></span>
-        <br>
-        <span class="label">联系方式：</span>
-        <span class="txt"><input type="text" name="phone"placeholder="请输入您的联系方式"/></span>
-        <br>
-        <span class="label">就餐人数：</span>
-        <select name="num">
-		<option value="1">1~5人</option>
-		<option value="6">5~10人</option>	
-		<option value="11">10人以上</option>
-		<option value="21">包间</option>
-		</select>
-        <br>
-        <input type="submit" value="点击取号">
-
-</form>
-
-=================================================================
-
-
-<form method="POST" action="<?php  echo  base_url('guest/g_home/select')  ?>">
-
- 	
-        <span class="label">联系方式：</span>
-        <span class="txt"><input type="text" name="phone"placeholder="请输入您的联系方式"/></span>
-        <br>
-       
-        <input type="submit" value="查询状态">
+*{
+                margin: 0;
+                padding: 0;
+        }
         
-</form>
+</style>
+<link rel="stylesheet" type="text/css" href="<?php  echo base_url() .'style/' ?>css/res.css">
 
+</head>
+
+<body id="bod">
+        <div  class="top">
+                <div class="top-l"><img src=""></div>
+                <div  class="top-r"><h1></h1></div>
+        </div>
+        <div class="fom" id="dv">
+        <form>
+                <br>
+                &nbsp; &nbsp;昵称：<input type="text" id="nam" placeholder="请输入您的称谓">
+                <br><br><br>
+                &nbsp; &nbsp;联系方式：<input type="text" id="con" placeholder="请输入您的联系方式">
+                <br><br><br>
+                &nbsp; &nbsp;就餐人数：<select id="sel">
+                        <option value="1">1~5人</option>
+                        <option value="6">5~10人</option> <option value="11">10人以上</option>
+                        <option value="21">包间</option>
+                        </select>
+                <br><br><br>
+                <input type="button" id="btn" value="点击取号">
+                <div id="dv1" class="d"><u>已排队,点击查看</u>
+                </div>        
+        </form>
+        </div>
+
+       
+</body>
+
+<script type="text/javascript">
+
+          document.getElementById("btn").onclick=function(){
+                var dvobj=document.getElementById("dv");
+                var obj1=document.getElementById("nam");
+                var obj2=document.getElementById("sel");
+                var obj3=document.getElementById("con");
+                if(obj1.value.length==0||obj3.value.length==0){
+                        alert("请完善信息");
+                        return;
+                }
+                        
+                if(obj3.value.length!==11){
+                        alert("手机号必须为11位");
+                        return;
+                }
+                   var n=obj1.value;
+                   var c=obj3.value;
+                   var s=obj2.value;
+
+                   var  json={
+                        "name":n,
+                      "con":c,
+                      "sel":s
+                   };
+                  
+                        var xhr= new XMLHttpRequest();
+                        xhr.open("POST","<?php  echo  base_url('guest/g_home/take_num')  ?>");
+                        xhr.send(JSON.stringify(json));
+                        xhr.onreadystatechange=function(){
+                          if(this.readyState!==4)return;
+                          var num=this.responseText;
+                          alert("您前方还有"+num+"人在排队，请耐心等待！");
+                        };
+                }
+                       
+                        var obj=document.getElementById("dv1");
+                        
+                        obj.onclick=function(){
+                                var bod=document.getElementById("bod");
+                        if( document.getElementById("dv2")){
+                        bod.removeChild(document.getElementById("dv2"));
+                        }
+                        var objdv2=document.createElement("div");
+                        objdv2.id="dv2";
+                        objdv2.innerHTML="联系方式:";
+                       bod.appendChild(objdv2);
+
+                         var objt=document.createElement("input");
+                         objt.id="te";
+                         objt.type="text";
+                         objdv2.appendChild(objt);
+                         var obja=document.createElement("input");
+                         obja.id="sta";
+                         obja.type="button"
+                         objdv2.appendChild(obja);
+                         obja.onclick=function(){
+                
+                       var objt=document.getElementById("te");
+                        var data=objt.value;
+                        var xhr= new XMLHttpRequest();
+                        xhr.open("POST","<?php  echo  base_url('guest/g_home/check_num')  ?>");
+                        xhr.send(data);
+                        xhr.onreadystatechange=function(){
+                         var p=parseInt(this.responseText);
+                         if(p>0){
+                                alert("排队完成！您的座位号为"+p+"，请开始点餐");
+                                
+                         }
+                         if(p==0){
+                                alert("您还未取号，请在上方填写相关信息！");
+                                
+                         }
+                         if(p<0){
+                                alert("您前方还有"+Math.abs(p)+"人在排队，请耐心等待！");
+                               
+                         }
+                        };
+                };
+                      
+                      }
+                      
+
+                     
+
+                     
+                   
+                        
+             
+              
+</script>
+          
 </html>

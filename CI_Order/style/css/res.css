@@ -1,0 +1,106 @@
+.top{
+		height:80px;
+		width: 100%;
+		background-color: brown;
+		position: relative;
+	}
+	.top-l{
+		height:80px;
+		width: 200px;
+		position: absolute;
+		left:100px;
+		top:0;
+		background-color: yellow;
+	}
+	.top-r{
+		width: 950px;
+		height: 80px;
+		position: absolute;
+		left:300px;
+		top:0;
+		background: green;
+		font-size:20px;
+		text-align: center;
+	}
+             .main{
+             	     width: 1150px;
+             	     height: 550px;
+             	     margin-left:400px;
+             	     background-color:brown;
+             	     margin-top:250px;
+             	  
+             	      }
+              .main div{
+              	width: 250px;
+              	height: 50px;
+              	background-color:yellow;
+              	float: left;
+              	margin-right: 50px;
+                           border-radius: 15px;
+                           text-align: center;
+                           padding-top: 30px;
+
+              }
+              .main:hover{
+              	cursor: pointer;
+               }
+               .top{
+		height:80px;
+		width: 100%;
+		background-color: brown;
+		position: relative;
+	}
+	.top-l{
+		height:80px;
+		width: 200px;
+		position: absolute;
+		left:100px;
+		top:0;
+		background-color: yellow;
+	}
+	.top-r{
+		width: 950px;
+		height: 80px;
+		position: absolute;
+		left:300px;
+		top:0;
+		background: green;
+		font-size:20px;
+		text-align: center;
+	}
+	.fom{
+		margin-top:100px;
+		margin-left: 450px;
+		width: 400px;
+		height: 300px;
+		border: 1px dashed black;
+		font-size: 20px;
+		padding-top: 10px;
+	}
+	#btn{
+		margin-left: 150px;
+        background-color: pink;
+	}
+	.d{
+		
+		width: 100px;
+		height: 30px;
+		margin-left: 300px;
+		margin-bottom: 0;
+		font-size: 12px;
+		padding-top: 20px;
+
+
+	}
+	#dv2{
+		width: 200px;
+		height:180px;
+		background-color: rgba(113,113,113);
+		position: absolute;
+		left:600px;
+		top:200px;
+		
+	}
+	u:hover{
+                    cursor: pointer;
+	}

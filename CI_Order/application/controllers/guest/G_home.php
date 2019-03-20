@@ -1,20 +1,25 @@
 <?php
+ini_set("display_errors", 0);
+error_reporting(E_ALL ^ E_NOTICE);
+
 
 class G_home extends CI_Controller {
-
+/*取号主页*/
     public function index()
     {
     	
  		$this->load->view('guest/g_home.html');
     }
-
+/*排队取号*/
     public function take_num(){
 
-    	$name = $this->input->post('name');
-    	$phone = $this->input->post('phone');
-   		$num = $this->input->post('num');
+      $info = file_get_contents("php://input");
+      $result =json_decode($info,TRUE);
+      $name = $result['name'];
+      $phone = $result['con'];
+      $num = (int)$result['sel'];
    		$this->load->library('session');
-        $this->session->set_userdata('phone',$phone);
+      $this->session->set_userdata('phone',$phone);
    		switch ($num) {
    			case '1':
    				$type = "a";break;
@@ -29,42 +34,42 @@ class G_home extends CI_Controller {
    		}
    		$this->load->model('G_model','G_model');
    		$result = $this->G_model->take_num($name,$phone,$type);
+
    		if($result){
    			
    			$phone = $this->session->userdata('phone');
-   			$w_num = $this->G_model->check_num($phone);
-   			if($w_num == 0)
-   			{
-
-
-   				echo "<script>alert('您已完成排队，请开始点餐！');parent.location.href='/guest/g_order';</script>";
-
-   			}
-   		
-   			echo "<script>alert('您前方还有".$w_num."人在排队，请耐心等待！');parent.location.href='/guest/g_order';</script>";
+   			$w_num = $this->G_model->check_num($phone);   	
+        echo $w_num;
    			
    		}
-  
-    
+     
  
-
-
-    }
-
-    public function select(){
-		$this->load->model('G_model','G_model');
-    	$phone = $this->input->post('phone');
-   		$w_num = $this->G_model->check_num($phone);
-   		if($w_num == 0)
-   		echo "<script>alert('您已完成排队，请开始点餐！');parent.location.href='/guest/g_order';</script>";
-   		else if($w_num==(-1))
-   		echo "<script>alert('您还未取号，请返回填写相关信息');parent.location.href='/guest/g_home';</script>";
-
-   		echo "<script>alert('您前方还有".$w_num."人在排队，请耐心等待！');parent.location.href='/guest/g_home';</script>";
-
+/*状态查询*/
 
     }
+
+    public function check_num(){
+		  $this->load->model('G_model','G_model');
+      $info = file_get_contents("php://input");
+   		$w_num = $this->G_model->check_num($info);
+   	  $statu = $this->G_model->take_table($info);
+      $table = $statu->table_id;
+       if($w_num == 0 && $table) echo $table;
+   		 else if($w_num==(-1)){
+          $a = 0;
+          echo $a;
+
+       }
+   		 else {
+          $a = 0-$w_num;
+          echo $a;
+   		    
+       }
+      }
+
 }
 
-
 ?>
+
+
+
