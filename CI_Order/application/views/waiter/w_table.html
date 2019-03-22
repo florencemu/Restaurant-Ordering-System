@@ -19,7 +19,10 @@
 				<td><?php echo $item['table_id'] ?></td>
 				<td><?php echo $item['table_statu'] ?></td>
 				<td><?php echo $item['guest_id'] ?></td>
-				<td><a href="<?php echo base_url('waiter/W_home/choose_table').'?'.'id='.$item['table_id']; ?>" style="color: #8B636C" >选择</a></td>
+				<td><a href="<?php echo base_url('waiter/W_home/choose_table').'?'.'id='.$item['table_id']; ?>" style="color: #8B636C" >排座</a>
+				&nbsp;
+				<a href="<?php echo base_url('waiter/W_home/show_bill').'?'.'id='.$item['table_id']; ?>" style="color: #8B636C" >结帐</a>
+				</td>
 			</tr>
 		<?php endforeach;?>
 		</tbody>

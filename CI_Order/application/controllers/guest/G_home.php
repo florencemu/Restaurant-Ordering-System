@@ -18,6 +18,9 @@ class G_home extends CI_Controller {
       $name = $result['name'];
       $phone = $result['con'];
       $num = (int)$result['sel'];
+      $this->load->model('G_model','G_model');
+      $a = $this->G_model->check_phone($phone);
+      if(!$a){
    		$this->load->library('session');
       $this->session->set_userdata('phone',$phone);
    		switch ($num) {
@@ -32,7 +35,6 @@ class G_home extends CI_Controller {
    				$type = "d";
    				break;
    		}
-   		$this->load->model('G_model','G_model');
    		$result = $this->G_model->take_num($name,$phone,$type);
 
    		if($result){
@@ -42,11 +44,13 @@ class G_home extends CI_Controller {
         echo $w_num;
    			
    		}
-     
+    }
+    else echo -1;
+}     
  
 /*状态查询*/
 
-    }
+
 
     public function check_num(){
 		  $this->load->model('G_model','G_model');
@@ -54,17 +58,11 @@ class G_home extends CI_Controller {
    		$w_num = $this->G_model->check_num($info);
    	  $statu = $this->G_model->take_table($info);
       $table = $statu->table_id;
-       if($w_num == 0 && $table) echo $table;
-   		 else if($w_num==(-1)){
-          $a = 0;
-          echo $a;
-
-       }
-   		 else {
-          $a = 0-$w_num;
-          echo $a;
-   		    
-       }
+       if($w_num == 0 && $table) 
+        echo $table;
+   		 else if($w_num==(-1)) echo 0;
+   		 /*缺少等候人数为0但未排座的判断*/
+       else echo 0-$w_num;  
       }
 
 }

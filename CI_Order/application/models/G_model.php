@@ -1,6 +1,14 @@
 <?php
 
 class G_model extends CI_Model{
+
+	/*判断重复取号*/
+	public function check_phone($phone){
+
+		$sql = "SELECT `id` FROM `guest` WHERE `phone`='$phone'";
+		$result = $this->db->query($sql)->row();
+		return $result;
+	}
 	
 	/*取号*/
 	
@@ -28,9 +36,13 @@ class G_model extends CI_Model{
 	public function take_table($phone){
 		$sql = "SELECT tablelist.table_id FROM `tablelist`,`guest` WHERE tablelist.guest_id = guest.id AND guest.phone = '$phone'";
 		$result = $this->db->query($sql)->row();
+		if($result->table_id){
+			$sql1 ="UPDATE `guest`SET `table_id`='$result->table_id' WHERE `phone`='$phone'";
+			$result1 = $this->db->query($sql1);
+		}
 		return $result;
 	} 
-
+/*更新桌号*/
 	/*点餐*/
 
 	// public function order($food_id){

@@ -1,5 +1,4 @@
 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,7 +23,7 @@
 	<div class="main">
 		<div class="main-l" id="customer">顾客取号</div>
 		
-		<div class="main-l">管理员入口</div>
+		<div class="main-l" id="admin">管理员入口</div>
 	</div>
 	
 </body>
@@ -32,7 +31,13 @@
 	
                  document.getElementById("customer").onclick=function(){
                  	
-                       window.location="<?php  echo  base_url() .'guest/g_home'  ?>" ;
+                       window.location="<?php  echo  base_url('guest/g_home')  ?>" ;
+                       console.log("gau");
+                }
+
+ 				 document.getElementById("admin").onclick=function(){
+                 	
+                       window.location="<?php  echo  base_url('waiter/w_home')  ?>" ;
                        console.log("gau");
                 }
 

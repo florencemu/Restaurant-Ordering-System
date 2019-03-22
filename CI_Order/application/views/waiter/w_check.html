@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<h2>客人就餐消费单</h2>
+==============================================================================
+<br>客人昵称：<?php $this->load->library('session');$name=$this->session->userdata('name');echo $name?> &nbsp;|&nbsp;&nbsp;&nbsp;桌号：<?php $this->load->library('session');$table=$this->session->userdata('table');echo $table?> &nbsp;|&nbsp;&nbsp;&nbsp;就餐时间：<?php $this->load->library('session');$time=$this->session->userdata('time');echo $time?> &nbsp;|&nbsp;&nbsp;&nbsp;流水单号：<?php $this->load->library('session');$id=$this->session->userdata('id');echo $id?> &nbsp;|&nbsp;&nbsp;&nbsp;服务员：100001
+&nbsp;</br>
+==============================================================================
+<table id="tab1" border="1" width="500" cellspacing="1" >
+	<thead>
+	<tr>
+			<th>名称</th>
+			<th>数量</th>
+			<th>单价</th>
+			<th>分类</th>
+			<th>小计</th>
+			</tr>
+	</thead>
+		<tbody>
+		 		<?php  foreach($food_info as $item): ?>
+		 	<tr>
+		 		<td><?php echo $item['food_name'] ?></td>
+		 		<td><?php echo $item['num'] ?></td>
+				<td><?php echo $item['food_price'] ?></td>
+				<td><?php echo $item['type'] ?></td>
+				<td><?php echo $item['food_price']*$item['num'] ?></td>
+			</tr>
+			<?php  $sum+=$item['food_price']*$item['num']; $this->load->library('session');$this->session->set_userdata('sum',$sum);?>
+		<?php endforeach;?>
+		</tbody>
+</table>
+<br>
+==============================================================================
+<br>
+<p>消费合计：<?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?> </p>
+<p>应收金额：<?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?> </p>
+<button id="cut">输入折扣</button>
+<button id="check">结帐</button>
+
+</head>
+</html>

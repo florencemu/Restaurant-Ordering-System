@@ -1,19 +1,87 @@
-<html>
 
+<!doctype html>
+<html lang="en">
 <head>
-<h1>前台登录</h1>
+	<meta charset="UTF-8">
+	<title>管理员登陆</title>
+	<style type="text/css">
 
+	   #load{
+	   	width: 400px;
+	   	height: 200px;
+	   	margin-top:100px;
+	   	margin-left:500px;
+	   	background-color: pink;
+	   	padding-top: 20px;
+	   	padding-left: 20px;
 
-<form method="POST" action="<?php  echo  base_url('waiter/w_home/login')  ?>">
+	   }
+	   #btn1{
+	   	margin-left:300px;
+	   	margin-top:30px;
+	   	width: 60px;
+	   	height: 30px;
+	   	outline:medium;
+	   	border: 1px solid gray;
+	   	border-radius: 8px;
+	   }
+	</style>
+	<link rel="stylesheet" type="text/css" href="<?php  echo base_url() .'style/' ?>css/res.css">
+	
+</head>
+<body> 
+	<div  class="top">
+		<div class="top-l"><img src=""></div>
+		<div  class="top-r"><h1>管理人员登陆</h1></div>
+	</div>
+	<div id="load">
+		<form >
+		工号：<input id="adm" type="text"><br><br>
 
- 		<span class="label">工号：</span>
-        <span class="txt"><input type="text" name="id" placeholder="请输入六位工号"/></span>
-        <br>
-        <span class="label">密码：</span>
-        <span class="password"><input type="text" name="pwd"placeholder="请输入密码"/></span>
-        <br>
+		密码：<input id="pas" type="password"><br><br><br><br>
 
-        <input type="submit" value="登录">
+                         <input type="button" value="登陆" id="btn1">
+	           </form>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	
 
-</form>
+ document.getElementById("btn1").onclick=function(){
+ 	var objad=document.getElementById("adm");
+	var objpa=document.getElementById("pas");
+	if(objad.value.length==0||objpa.value.length==0){
+			alert("请完善信息");
+			return;
+		}
+    var a=objad.value;
+    var p=objpa.value;
+    var json={
+       "id":a,
+       "pwd":p
+    };
+
+     var xhr= new XMLHttpRequest();
+     xhr.open("POST","<?php  echo  base_url('waiter/w_home/login')  ?>");
+     xhr.send(JSON.stringify(json));
+    xhr.onreadystatechange=function(){
+        if(this.readyState!==4)return;
+         var d=parseInt(this.responseText);
+         if(d>0){
+         	alert("后厨登录成功！");
+         	 window.location="<?php  echo  base_url('cook/c_home')  ?>"
+         }
+         if(d==0){
+         	alert("前台登录成功！");
+         	 window.location="<?php  echo  base_url('waiter/w_home/show_table')  ?>"
+         }
+         if(d<0){
+         	alert("登录失败！");
+         	 window.location="<?php  echo  base_url('waiter/w_home')  ?>"
+         }
+   };
+ }
+
+</script>
 </html>

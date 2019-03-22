@@ -5,7 +5,7 @@ class W_model extends CI_Model{
   /*前台登录*/
   
   public function login($id){
-    $sql = "SELECT admin_pwd FROM `admin` WHERE `admin_id` = '$id'";
+    $sql = "SELECT admin_pwd,type FROM `admin` WHERE `admin_id` = '$id'";
     $result = $this->db->query($sql)->row();
     return $result;
 
@@ -37,9 +37,23 @@ class W_model extends CI_Model{
    return $result2;
     
   }
-  
-  
 
+/*查询信息*/
+
+public function sel_info($id){
+  $sql = "SELECT `id`,`name`,`time`,`food_list` FROM `guest` WHERE `table_id` = '$id'";
+  $result = $this->db->query($sql)->row();
+  return $result;
+}
+
+/*显示账单明细*/
+
+public function show_bill($str){
+  $sql = "SELECT `food_id`,`food_name`,`food_price`,`type` FROM `menu` WHERE $str ";
+  $result = $this->db->query($sql)->result_array();
+  return $result;
+}
+ 
 /*收银*/
 // public function check_out(){
   
@@ -49,16 +63,14 @@ class W_model extends CI_Model{
 
 // }
 
-/*账单*/
 
-// public function bill(){
+/*历史账单*/
+  // public function history(){
 
 
 
-// }
 
- 
-
+  // }
 
 
 

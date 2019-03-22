@@ -92,15 +92,31 @@
 
 
 	}
-	#dv2{
-		width: 200px;
-		height:180px;
-		background-color: rgba(113,113,113);
-		position: absolute;
-		left:600px;
-		top:200px;
-		
-	}
-	u:hover{
-                    cursor: pointer;
-	}
+#dv2{
+                width:300px;
+                height:200px;
+                background-color: rgba(113,113,113);
+                position: absolute;
+                left:500px;
+                top:200px;
+               
+                
+        }
+#sta{
+        display: block;
+        
+        margin-top:60px;
+
+}
+#te{
+        margin-top: 10px;
+}
+#sp{
+        display: inline-block;
+        width: 50px;
+        height: 30px;
+        position: absolute;
+        left:250px;
+        top:0px;
+        background-color: pink;
+}
