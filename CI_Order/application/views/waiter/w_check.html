@@ -2,10 +2,13 @@
 
 <head>
 <h2>客人就餐消费单</h2>
+<!-- 我将传给你两组json格式的数据，一组是账单头显示的信息，一组是账单信息，你将他们解析之后分别填入该填的位置。 -->
 ==============================================================================
-<br>客人昵称：<?php $this->load->library('session');$name=$this->session->userdata('name');echo $name?> &nbsp;|&nbsp;&nbsp;&nbsp;桌号：<?php $this->load->library('session');$table=$this->session->userdata('table');echo $table?> &nbsp;|&nbsp;&nbsp;&nbsp;就餐时间：<?php $this->load->library('session');$time=$this->session->userdata('time');echo $time?> &nbsp;|&nbsp;&nbsp;&nbsp;流水单号：<?php $this->load->library('session');$id=$this->session->userdata('id');echo $id?> &nbsp;|&nbsp;&nbsp;&nbsp;服务员：100001
+<!-- 账单头信息 -->
+<br>客人昵称：<?php $this->load->library('session');$name=$this->session->userdata('name');echo $name?> &nbsp;|&nbsp;&nbsp;&nbsp;桌号：<?php $this->load->library('session');$table=$this->session->userdata('table');echo $table?> &nbsp;|&nbsp;&nbsp;&nbsp;就餐时间：<?php $this->load->library('session');$time=$this->session->userdata('time');echo $time?> &nbsp;|&nbsp;&nbsp;&nbsp;流水单号：<?php $this->load->library('session');$id=$this->session->userdata('id');echo $id?> &nbsp;|&nbsp;&nbsp;&nbsp;服务员：<?php $this->load->library('session');$admin=$this->session->userdata('admin');echo $admin?>
 &nbsp;</br>
 ==============================================================================
+<!-- 账单信息 -->
 <table id="tab1" border="1" width="500" cellspacing="1" >
 	<thead>
 	<tr>
@@ -22,9 +25,21 @@
 		 		<td><?php echo $item['food_name'] ?></td>
 		 		<td><?php echo $item['num'] ?></td>
 				<td><?php echo $item['food_price'] ?></td>
+<!-- 在这里你需要将type字段进行转义，我传给你的数字分别代表：
+1.凉菜
+2.热菜
+3.汤羹
+4.小吃
+5.主食
+6.套餐
+7.饮品
+8.纸巾
+你通过数字判断类型并更改type值填入表格 -->
 				<td><?php echo $item['type'] ?></td>
+<!-- 在这里你需要做一个操作，将num字段和food_price字段进行乘法操作，得到总金额，这是不同数量单个菜品的总额，将它也写入表格中名为小计的字段 -->
 				<td><?php echo $item['food_price']*$item['num'] ?></td>
 			</tr>
+<!-- 在这里你需要做一个操作，将以上表格中所有不同数量单个菜品的总额累加，得到所有菜品总额 -->
 			<?php  $sum+=$item['food_price']*$item['num']; $this->load->library('session');$this->session->set_userdata('sum',$sum);?>
 		<?php endforeach;?>
 		</tbody>
@@ -32,10 +47,46 @@
 <br>
 ==============================================================================
 <br>
-<p>消费合计：<?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?> </p>
-<p>应收金额：<?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?> </p>
+<!-- 在这里输出之前计算好的菜品总额 -->
+<p>消费合计：<b><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元 </p>
+<!-- 这里将添加根据会员等级自动折扣功能，等所有都写好之后再添加-->
+
+<!-- 这里将根据点击按钮选择的折扣进行打折，如果没有选择则和上面的消费合计相同 -->
+<p>实收金额：<b id="sum"><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元</p>
+<!-- 点击输入折扣按钮，弹框出现，选择折扣力度（一个select，分别为9折（特殊折扣）和8折（生日折扣）），点击确定，局部刷新以上页面，并将这个数字记录下来-->
 <button id="cut">输入折扣</button>
+<!-- 点击结帐按钮，将实收金额，流水单号，折扣信息包装成json传给我 -->
 <button id="check">结帐</button>
 
 </head>
+
+
+
+<script type="text/javascript">
+	
+
+ document.getElementById("check").onclick=function(){
+ 	var objs=document.getElementById("sum");
+    var data = objs.innerText;
+
+    var xhr= new XMLHttpRequest();
+     xhr.open("POST","<?php  echo  base_url('waiter/w_home/check_out')  ?>");
+     xhr.send(data);
+     xhr.onreadystatechange=function(){
+                          if(this.readyState!==4)return;
+                          var statu=this.responseText;
+                          if(statu==0) {alert("结帐失败！");}
+                          if(statu==1) {alert("结帐成功！！");window.location="<?php  echo  base_url('waiter/w_home/show_table')  ?>";}
+                        };
+ 
+ }
+
+</script>
+
+
+
+
+
+
+
 </html>

@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<b>座位分布</b>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="out">返回</button>
+
+<!-- 这里添加一个日期控件，选择日期，并设置一个按钮，点击按钮，将日期传给我，在这里我们要做一个根据日期的信息筛选，最好将日期包装成y-m-d h:m:s 这样的格式，或者以时间戳的格式传给我 -->
+<table id="tab1" border="1" width="500" cellspacing="1" >
+<!-- 这里我将传给你json格式数据，你解析之后填入table中 -->
+	<thead>
+	<tr>
+			<th>顾客昵称</th>
+			<th>联系方式</th>
+			<th>就餐桌号</th>
+			<th>实收金额</th>
+			<th>折扣</th>
+			<th>结帐时间</th>
+			<th>收银员</th>
+			<th>明细</th>
+
+			</tr>
+		</thead>
+		<tbody>
+		 		<?php  foreach($bill_list as $item): ?>
+		 	<tr>
+		 		
+				<td><?php echo $item['name'] ?></td>
+				<td><?php echo $item['phone'] ?></td>
+				<td><?php echo $item['table_id'] ?></td>
+				<td><?php echo $item['total_price'] ?></td>
+				<td><?php echo $item['discount'] ?></td>
+				<td><?php echo $item['time'] ?></td>
+				<td><?php echo $item['waiter_id'] ?></td>
+				<!-- 这里是查看账单明细，不用改 -->
+				<td><a href="<?php echo base_url('waiter/W_home/guest_bill').'?'.'id='.$item['id']; ?>" style="color: #8B636C" >查看</a>
+				&nbsp;
+				</td>
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+</table>
+
+</head>
+
+<script type="text/javascript">
+	
+
+ document.getElementById("out").onclick=function(){
+ 		window.location="<?php  echo  base_url('waiter/w_home/show_table')  ?>";
+ 		}
+
+</script>
+
+</html>

@@ -38,10 +38,10 @@ class W_model extends CI_Model{
     
   }
 
-/*查询信息*/
+/*查询待结帐信息*/
 
 public function sel_info($id){
-  $sql = "SELECT `id`,`name`,`time`,`food_list` FROM `guest` WHERE `table_id` = '$id'";
+  $sql = "SELECT guest.id,guest.name,orderlist.time,orderlist.food_list FROM `guest`,`orderlist` WHERE guest.table_id = '$id'AND orderlist.id = guest.id AND guest.statu = '2' ";
   $result = $this->db->query($sql)->row();
   return $result;
 }
@@ -55,22 +55,35 @@ public function show_bill($str){
 }
  
 /*收银*/
-// public function check_out(){
-  
-
-
-
-
-// }
-
+public function check_out($id,$price,$admin){
+  $sql = "UPDATE `orderlist`,`guest` SET orderlist.total_price='$price',orderlist.waiter_id='$admin',guest.statu = 3 WHERE orderlist.id='$id'AND orderlist.id=guest.id";
+  $result = $this->db->query($sql);
+  if($result){
+    $sql1 = "UPDATE `tablelist` SET `table_statu` = 0,`guest_id` = NULL WHERE guest_id = '$id'";
+    $result1 = $this->db->query($sql1);
+  }
+  return $result1;
+}
 
 /*历史账单*/
-  // public function history(){
+  public function history(){
+    $sql = "SELECT guest.id,guest.name,guest.phone,guest.table_id,orderlist.total_price,orderlist.time,orderlist.discount,orderlist.waiter_id FROM `guest`,`orderlist` WHERE guest.id = orderlist.id";
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+  }
+/*查询顾客账单信息*/
+  public function guest_bill($id){
+    $sql = "SELECT guest.name,orderlist.time,orderlist.food_list FROM `guest`,`orderlist` WHERE guest.id = '$id'AND orderlist.id = guest.id AND guest.statu = '3' ";
+  $result = $this->db->query($sql)->row();
+  return $result;
 
 
 
 
-  // }
+
+
+
+  }
 
 
 

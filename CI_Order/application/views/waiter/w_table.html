@@ -1,9 +1,17 @@
 <html>
 
 <head>
-<h1>座位分布</h1>
 
+<!-- 这个页面比较复杂，我将会传给你一组json
+1.首先你需要提取其中的table_id字段，table_id中1-10对应小桌A区，11-20对应中桌B区，21-30对应大桌C区，31-40对应包间D区，你将负责在页面根据id设置分区。
+2.然后你需要提取其中的table_statu字段，这个字段和id是关联的，当它为0时，点击将会跳转到<?php echo base_url('waiter/W_home/choose_table')?>，你需要将被点击的table_id传给我，并根据我的返回值alert排桌成功或失败。
+3.当排桌成功后，这个座位的table_statu已经被我设置为1,颜色或其他将和没有排座的座位进行区分，点击它会alert一个“是否进行收银”的判断框，如果点确认，将跳转至<?php echo base_url('waiter/W_home/show_bill')?>，并将其table_id传给我。 -->
+
+<b>座位分布</b>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="out">注销</button>
+<button id="his">历史账单</button>
 <table id="tab1" border="1" width="500" cellspacing="1" >
+	<!-- 不用管这里的表格，到时候把它美化成我之前告诉你的样子就可以啦。 -->
 	<thead>
 	<tr>
 			<th>桌号</th>
@@ -29,4 +37,17 @@
 </table>
 
 </head>
+
+<script type="text/javascript">
+	
+
+ document.getElementById("out").onclick=function(){
+ 		window.location="<?php  echo  base_url('waiter/w_home/')  ?>";
+ 		}
+ document.getElementById("his").onclick=function(){
+ 		window.location="<?php  echo  base_url('waiter/w_home/history_bill')  ?>";
+ 		}
+
+</script>
+
 </html>

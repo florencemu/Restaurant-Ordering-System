@@ -2,7 +2,15 @@
 ini_set("display_errors", 0);
 error_reporting(E_ALL ^ E_NOTICE);
 
-
+/*补充内容：
+====================VIP特权=======================
+1.一次就餐完毕升级vip1，可享受预约提前(保留3month)
+2.两次就餐完毕升级vip2，可享受预约提前+95折扣(保留6month)
+3.十次就餐完毕升级vip3,可享受预约提前+85折扣(保留1year)
+4.二十次就餐完毕升级vip4,可享受预约提前+永久75折扣
+5.会员查询在顾客每次就餐完毕后审核并写入表中，进行定期更新。
+=================================================
+*/
 class G_home extends CI_Controller {
 /*取号主页*/
     public function index()
@@ -49,9 +57,6 @@ class G_home extends CI_Controller {
 }     
  
 /*状态查询*/
-
-
-
     public function check_num(){
 		  $this->load->model('G_model','G_model');
       $info = file_get_contents("php://input");
@@ -66,6 +71,7 @@ class G_home extends CI_Controller {
       }
 
 }
+
 
 ?>
 

@@ -21,7 +21,11 @@ class W_home extends CI_Controller {
       $repwd = $result->admin_pwd;
       $type = $result->type;
       if($pwd==$repwd&&$type==0)
+      {
+         $this->load->library('session');
+          $this->session->set_userdata('admin',$id);
         echo 0;
+      }
       if($pwd==$repwd&&$type==1)
         echo 1;
       else echo -1;
@@ -72,6 +76,8 @@ class W_home extends CI_Controller {
       $this->session->set_userdata('time',$info->time);
       $foodlist = explode(',', $info->food_list,-1);
       $i = count($foodlist);
+      /*按foodid排序防止统计出错*/
+      asort($foodlist);
       /*统计菜品数量*/
       $num = array_count_values($foodlist);
       /*拼接sql*/
@@ -82,7 +88,6 @@ class W_home extends CI_Controller {
       $sql = substr($sql,0,strlen($sql)-3);
       $foodinfo = $this->W_model->show_bill($sql);
       $newnum = array();
-      /*问题：不按id点餐顺序错乱*/
       foreach ($num as $a) {
               $newnum[]=$a;
       }
@@ -90,27 +95,73 @@ class W_home extends CI_Controller {
               $foodinfo[$k]['num'] = $v;
       } 
       $data['food_info'] = $foodinfo;
-      var_dump($data);
-      // $this->load->view('waiter/w_check.html',$data);   
+      $this->load->view('waiter/w_check.html',$data);   
     }
   
     
 
 /*收银*/
+
+/*人工折扣生效条件：生日当天8折优惠*/
 public function check_out(){
-
-
-
-
+  $this->load->library('session');
+  $sum = file_get_contents("php://input");
+  $price = (int)$sum;
+  $admin = $this->session->userdata('admin');
+  $id = $this->session->userdata('id');
+  $this->load->model('W_model','W_model');
+  $result =$this->W_model->check_out($id,$price,$admin);
+/*刷新会员等级*/
+  if($result) echo 1;
+  else echo 0;
 }
 
-/*历史账单*/
+/*打印流水帐目*/
+public function history_bill(){
+  $this->load->model('W_model','W_model');
+  $data['bill_list'] = $this->W_model->history();
+  $this->load->view('waiter/w_bill.html',$data);
+  
+}
 
-// public function bill(){
+/*历史账单明细*/
+public function guest_bill(){
+  $id = $this->input->get('id');
+  $this->load->library('session');
+  $this->session->set_userdata('id',$id);
+  $this->load->model('W_model','W_model');
+  $info = $this->W_model->guest_bill($id);
+  // var_dump($info);die;
+  
+  $foodlist = explode(',', $info->food_list,-1);
+  // var_dump($foodlist);die;
+      $i = count($foodlist);
+      /*按foodid排序防止统计出错*/
+      asort($foodlist);
+      /*统计菜品数量*/
+      $num = array_count_values($foodlist);
+      /*拼接sql*/
+      while($foodlist[$i-1]){
+        $sql.="`food_id`="."'".$foodlist[$i-1]."'"." or ";
+        --$i;
+        }
+      $sql = substr($sql,0,strlen($sql)-3);
+
+      $foodinfo = $this->W_model->show_bill($sql);
+      $newnum = array();
+      foreach ($num as $a) {
+              $newnum[]=$a;
+      }
+      foreach($newnum as $k=>$v){
+              $foodinfo[$k]['num'] = $v;
+      } 
+      $data['food_info'] = $foodinfo;
+
+  $this->load->view('guest/g_bill.html',$data);
 
 
   
-// }
+}
    
 }
 
