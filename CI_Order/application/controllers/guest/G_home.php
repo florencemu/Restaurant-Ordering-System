@@ -20,7 +20,6 @@ class G_home extends CI_Controller {
     }
 /*排队取号*/
     public function take_num(){
-
       $info = file_get_contents("php://input");
       $result =json_decode($info,TRUE);
       $name = $result['name'];
@@ -29,6 +28,11 @@ class G_home extends CI_Controller {
       $this->load->model('G_model','G_model');
       $a = $this->G_model->check_phone($phone);
       if(!$a){
+/*读取并更新会员信息*/
+      $res = $this->G_model->get_vip($phone);
+      $num = $res->total;
+      $num==1?$vip=1:($num>=2&&$num<10?$vip=2:($num>=10&&$num<20?$vip=3:($num>20?$vip=4:$vip=0)));
+      $this->G_model->update_vip($vip);
    		$this->load->library('session');
       $this->session->set_userdata('phone',$phone);
    		switch ($num) {
@@ -43,8 +47,7 @@ class G_home extends CI_Controller {
    				$type = "d";
    				break;
    		}
-   		$result = $this->G_model->take_num($name,$phone,$type);
-
+   		$result = $this->G_model->take_num($name,$phone,$type,$vip);
    		if($result){
    			
    			$phone = $this->session->userdata('phone');
@@ -54,7 +57,7 @@ class G_home extends CI_Controller {
    		}
     }
     else echo -1;
-}     
+}  
  
 /*状态查询*/
     public function check_num(){

@@ -73,12 +73,12 @@
                         var xhr= new XMLHttpRequest();
                         xhr.open("POST","<?php  echo  base_url('guest/g_home/take_num')  ?>");
                         xhr.send(JSON.stringify(json));
-                        xhr.onreadystatechange=function(){
-                          if(this.readyState!==4)return;
-                          var num=this.responseText;
-                          if(num>0) {alert("您前方还有"+num+"人在排队，请耐心等待！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
-                          if(num<0) {alert("请不要重复取号，点击下方可查询当前状态！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
-                        };
+                        // xhr.onreadystatechange=function(){
+                        //   if(this.readyState!==4)return;
+                        //   var num=this.responseText;
+                        //   if(num>=0) {alert("您前方还有"+num+"人在排队，请耐心等待！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
+                        //   if(num<0) {alert("请不要重复取号，点击下方可查询当前状态！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
+                        // };
                 }
                        
                         var obj=document.getElementById("dv1");
@@ -120,7 +120,7 @@
                                 
                          }
                          if(p==0){
-                                alert("您还未取号，请返回填写相关信息！");
+                                alert("您还未取号，请返回填写相关信息！如已取号，表示您正在被排号中，请耐心等待。");
                                 window.location="<?php  echo  base_url('guest/g_home')  ?>"
                          }
                          if(p<0){

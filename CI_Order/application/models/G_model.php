@@ -5,21 +5,44 @@ class G_model extends CI_Model{
 	/*判断重复取号*/
 	public function check_phone($phone){
 
-		$sql = "SELECT `id` FROM `guest` WHERE `phone`='$phone'";
+		$sql = "SELECT `id` FROM `guest` WHERE `phone`='$phone'AND `statu`<3 ";
 		$result = $this->db->query($sql)->row();
 		return $result;
 	}
 	
 	/*取号*/
 	
-	public function take_num($name,$phone,$type){
-		$sql = "INSERT INTO `guest`(`name`,`phone`,`type`,`statu`) VALUES ('$name','$phone','$type','0')";
+	public function take_num($name,$phone,$type,$vip){
+		$sql = "INSERT INTO `guest`(`name`,`phone`,`type`,`statu`,`vip`) VALUES ('$name','$phone','$type','0','$vip')";
 		$result = $this->db->query($sql); 
 		return $result;
 
 	}
-	/*状态查询*/
 
+	/*查询就餐记录*/
+
+	public function get_vip($phone){
+		$sql = "SELECT `phone`,count(*) as `total` from `guest` where `phone`='$phone' group by `phone` having count(1)>0 ";
+		$result = $this->db->query($sql)->row();
+		return $result;
+
+	}
+
+	/*更新会员*/
+
+	public function update_vip($phone,$vip){
+		$sql = "UPDATE `guest` SET `vip` ='$vip' WHERE `phone`='$phone'";
+		$result = $this->db->query($sql);
+		return $result;
+	}
+	/*查询会员*/
+	public function show_vip($id){
+		$sql = "SELECT `vip` FROM `guest` WHERE `id`='$id'";
+		$result = $this->db->query($sql)->row();
+		return $result;
+
+	}
+	/*状态查询*/
 	public function check_num($phone){
 		$sql = "SELECT time,type FROM `guest` WHERE `phone` = '$phone'";
 		$result = $this->db->query($sql)->row();

@@ -5,7 +5,19 @@
 <!-- 我将传给你两组json格式的数据，一组是账单头显示的信息，一组是账单信息，你将他们解析之后分别填入该填的位置。 -->
 ==============================================================================
 <!-- 账单头信息 -->
-<br>客人昵称：<?php $this->load->library('session');$name=$this->session->userdata('name');echo $name?> &nbsp;|&nbsp;&nbsp;&nbsp;桌号：<?php $this->load->library('session');$table=$this->session->userdata('table');echo $table?> &nbsp;|&nbsp;&nbsp;&nbsp;就餐时间：<?php $this->load->library('session');$time=$this->session->userdata('time');echo $time?> &nbsp;|&nbsp;&nbsp;&nbsp;流水单号：<?php $this->load->library('session');$id=$this->session->userdata('id');echo $id?> &nbsp;|&nbsp;&nbsp;&nbsp;服务员：<?php $this->load->library('session');$admin=$this->session->userdata('admin');echo $admin?>
+<br>客人昵称：<?php $this->load->library('session');$name=$this->session->userdata('name');echo $name?> &nbsp;|&nbsp;&nbsp;&nbsp;
+VIP等级：<?php $this->load->library('session');
+$vip=$this->session->userdata('vip');
+echo $vip;
+?> &nbsp;|&nbsp;&nbsp;&nbsp;
+桌号：<?php $this->load->library('session');
+$table=$this->session->userdata('table');
+echo $table;?> 
+<br>就餐时间：<?php $this->load->library('session');$time=$this->session->userdata('time');echo $time?> &nbsp;|&nbsp;&nbsp;&nbsp;
+流水单号：<?php $this->load->library('session');
+$id=$this->session->userdata('id');echo $id?> &nbsp;|&nbsp;&nbsp;&nbsp;
+服务员：<?php $this->load->library('session');
+$admin=$this->session->userdata('admin');echo $admin?>
 &nbsp;</br>
 ==============================================================================
 <!-- 账单信息 -->
@@ -49,10 +61,14 @@
 <br>
 <!-- 在这里输出之前计算好的菜品总额 -->
 <p>消费合计：<b><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元 </p>
-<!-- 这里将添加根据会员等级自动折扣功能，等所有都写好之后再添加-->
+
+<!-- 这里将添加根据会员等级自动折扣功能，如果我传给你的数据中含有一个会员折扣值，你将它与总额相乘后填写在应收金额里，且禁止点击折扣按钮。-->
 
 <!-- 这里将根据点击按钮选择的折扣进行打折，如果没有选择则和上面的消费合计相同 -->
-<p>实收金额：<b id="sum"><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元</p>
+<p>会员折扣：<b><?php $this->load->library('session');
+	$discount=$this->session->userdata('discount');echo $discount*100;?></b>%</p>
+<p>实收金额：<b id="sum"><?php $this->load->library('session');$sum=$this->session->userdata('sum');
+	$discount=$this->session->userdata('discount');echo $sum*$discount;?></b>元</p>
 <!-- 点击输入折扣按钮，弹框出现，选择折扣力度（一个select，分别为9折（特殊折扣）和8折（生日折扣）），点击确定，局部刷新以上页面，并将这个数字记录下来-->
 <button id="cut">输入折扣</button>
 <!-- 点击结帐按钮，将实收金额，流水单号，折扣信息包装成json传给我 -->

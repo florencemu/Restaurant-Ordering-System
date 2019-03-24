@@ -35,6 +35,8 @@ class W_home extends CI_Controller {
     public function show_table(){
         $this->load->model('W_model','W_model');
         $data['table'] = $this->W_model->show_table();
+        // $table = json_encode($data);
+        // echo $table;
         $this->load->view('waiter/w_table.html',$data);
 
     }
@@ -66,14 +68,15 @@ class W_home extends CI_Controller {
     {
       // $result = file_get_contents("php://input");
       $id = $this->input->get('id');
+      $this->load->library('session');
+      /*获取账单*/
       $this->load->model('W_model','W_model');
       $info = $this->W_model->sel_info($id);
-      $this->load->library('session');
-      $this->session->set_userdata('table',$id);
       $this->session->set_userdata('id',$info->id);
       $this->session->set_userdata('name',$info->name);
       /*这里的time在提交点餐时更新*/
       $this->session->set_userdata('time',$info->time);
+      $this->session->set_userdata('table',$id);
       $foodlist = explode(',', $info->food_list,-1);
       $i = count($foodlist);
       /*按foodid排序防止统计出错*/
@@ -95,6 +98,26 @@ class W_home extends CI_Controller {
               $foodinfo[$k]['num'] = $v;
       } 
       $data['food_info'] = $foodinfo;
+    /*获取vip信息*/
+      $this->load->model('G_model','G_model');
+      $result = $this->G_model->show_vip($info->id);
+      $vip = $result->vip;
+      switch ($vip) {
+        case '2':
+          $discount = (float)(95/100);
+          break;
+        case '3':
+          $discount = (float)(85/100);
+          break;
+        case '4':
+          $discount = (float)(75/100);
+          break;
+        default:
+          $discount = (float)(100/100);break;
+      }
+      $this->session->set_userdata('vip',$vip);
+      $this->session->set_userdata('discount',$discount);
+
       $this->load->view('waiter/w_check.html',$data);   
     }
   

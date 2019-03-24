@@ -19,10 +19,15 @@ class W_model extends CI_Model{
   }
 
   /*排座*/
-
   public function choose_table($type,$table_id){
-   $sql = "SELECT id FROM `guest` WHERE `time`=(SELECT MIN(time) FROM `guest` WHERE `type`='$type' AND `statu` = '0' ) ";
+   /*vip用户特权排桌*/
+   $sql = "SELECT id FROM `guest` WHERE `time`=(SELECT MIN(time) FROM `guest` WHERE `type`='$type' AND `statu` = '0' AND `vip`>0) ";
    $result = $this->db->query($sql)->row();
+   /*普通用户排桌*/
+   if(!$result){
+    $sql = "SELECT id FROM `guest` WHERE `time`=(SELECT MIN(time) FROM `guest` WHERE `type`='$type' AND `statu` = '0' AND `vip`=0) ";
+   $result = $this->db->query($sql)->row();
+   }
    $id = $result->id;
    if($id === NULL ) return -1;
    else{
