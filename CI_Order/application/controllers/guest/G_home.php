@@ -66,8 +66,11 @@ class G_home extends CI_Controller {
    		$w_num = $this->G_model->check_num($info);
    	  $statu = $this->G_model->take_table($info);
       $table = $statu->table_id;
-       if($w_num == 0 && $table) 
+       if($w_num == 0 && $table) {
+        $this->load->library('session');
+        $this->session->set_userdata('guestid',$guestid);
         echo $table;
+      }
    		 else if($w_num==(-1)) echo 0;
    		 /*缺少等候人数为0但未排座的判断*/
        else echo 0-$w_num;  
