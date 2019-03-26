@@ -12,8 +12,8 @@ class C_model extends CI_Model{
 	}
 	/*完成菜品*/
 
-	public function finish_food($id){
-		$sql = "UPDATE `cook` SET `to_do` = `to_do`-1 WHERE `food_id` = '$id'";
+	public function finish_food($id,$num){
+		$sql = "UPDATE `cook` SET `to_do` = `to_do`-$num WHERE `food_id` = '$id'";
 		$result = $this->db->query($sql);
 		return $result;
 

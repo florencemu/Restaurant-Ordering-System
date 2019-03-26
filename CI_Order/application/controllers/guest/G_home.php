@@ -51,7 +51,10 @@ class G_home extends CI_Controller {
    		if($result){
    			
    			$phone = $this->session->userdata('phone');
-   			$w_num = $this->G_model->check_num($phone);   	
+   			$w_num = $this->G_model->check_num($phone);
+        /*利用ip+cookie标识用户*/
+        // $uerip = $this->input->ip_address();
+        // $this->input->set_cookie("userip",$userip,60);   	
         echo $w_num;
    			
    		}

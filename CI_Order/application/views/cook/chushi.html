@@ -10,14 +10,21 @@
 		margin: 0;
 		padding: 0;
 	}
-	#dv0 {;
-                   background: (113,113,113,0.3);
+	#dv0{
+                   background: rgba(113,113,113,0.3);
                    width: 200px;
                    height: 100px;
                    position: absolute;
-                   left:400px;
-                   top:600px;
+                   left:100px;
+                   top:50px;
 	}
+  #txt{
+    display: inline-block;
+    width: 50px;
+
+  }
+  
+   
 	.xiaoshi{
 		display: none;
 	}
@@ -50,7 +57,7 @@
 	      <td>{{$value.food_id}}<td>
 	      <td>{{$value.food_name}}<td>
                     <td>{{$value.to_do}}<td>
-                    <td id="cpl">完成<td>
+                    <td class="cpl">完成<td>
 	</tr>
 	{{/each}}
 </script>
@@ -71,36 +78,59 @@
       
 
       document.getElementById('demo').innerHTML = html
+      var objs=document.getElementsByClassName('cpl')
+      for(i=0;i<objs.length;i++){
+        objs[i].onclick=function(){
 
-       document.getElementById('cpl').onclick=function(){
           var parent=this.parentNode;
+
           var nodes=parent.childNodes;
+           
+           var n=parseInt(nodes[5].innerHTML);
+
+
           var objbod2=document.getElementById('bod2')
-            var div0=document.createElement("div");
+            var div0=document.createElement('div')
                         div0.id="dv0";
-                        dv0.innerHTML="请选择数量：<input type=‘text‘ value='1' id='txt'><br><br><br><input type='btton' value='确定' id='btn0'>";
+                        div0.innerHTML="请选择数量：<input type=‘text‘ value='1' id='txt'><br><br><br><input type='button' value='确定' id='btn0'>";
                        objbod2.appendChild(div0);
                        var objbtn0=document.getElementById('btn0');
 
-                       objbtn0.onclick=function(){
+                      objbtn0.onclick=function(){
                           var x=document.getElementById('txt').value;
-                          var y=nodes[0].innertext;
+                          if(x>n){
+                            alert("出菜失败！");
+                            return;
+                          }
+                         var y=nodes[1].innerHTML;
+                         
                           dv0.className="xiaoshi";
                           var json={
-                          	"to_do":x,
-                          	"food_id":y
+                            "to_do":x,
+                            "food_id":y
                           };
-
+                        
                         var xhr= new XMLHttpRequest();
                         xhr.open("POST","<?php  echo  base_url('cook/c_home/finish_food')  ?>");
                         xhr.send(JSON.stringify(json));
                         xhr.onreadystatechange=function(){
                           if(this.readyState!==4)return;
-                          console.log(1);
+                          var x=this.responseText;
+
+                          if(x==1){
+                            alert("出菜成功！");
+                            window.location.reload();
+                          }else{
+                            alert("出菜失败！");
+                             
+                          }
                         };
                        }
 
        }
+      }
+
+       
     }
 
 

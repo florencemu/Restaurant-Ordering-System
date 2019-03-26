@@ -16,7 +16,7 @@ class C_home extends CI_Controller {
 
     public function show(){
       $this->load->model('C_model','C_model');
-      $data['food'] = $this->C_model->show_food();
+      $data['food']= $this->C_model->show_food();
       $res = json_encode($data,JSON_UNESCAPED_UNICODE);
        echo $res;
     }
@@ -25,12 +25,13 @@ class C_home extends CI_Controller {
     public function finish_food(){
       $info = file_get_contents("php://input");
       $data = json_decode($info);
-      var_dump($data);
-      // $id = $this->input->get('id');
-      // $this->load->model('C_model','C_model');
-      // $result = $this->C_model->finish_food($id);
-      // if($result)
-      //   echo "<script>alert('出菜成功！');parent.location.href='/cook/C_home';</script>";
+      $id = $data->food_id;
+      $num = $data->to_do;
+      $this->load->model('C_model','C_model');
+      $result = $this->C_model->finish_food($id,$num);
+      if($result)
+        echo 1;
+      else echo 0;
     	
    			
    		}
