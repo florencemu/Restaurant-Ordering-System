@@ -73,12 +73,12 @@
                         var xhr= new XMLHttpRequest();
                         xhr.open("POST","<?php  echo  base_url('guest/g_home/take_num')  ?>");
                         xhr.send(JSON.stringify(json));
-                        // xhr.onreadystatechange=function(){
-                        //   if(this.readyState!==4)return;
-                        //   var num=this.responseText;
-                        //   if(num>=0) {alert("您前方还有"+num+"人在排队，请耐心等待！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
-                        //   if(num<0) {alert("请不要重复取号，点击下方可查询当前状态！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
-                        // };
+                        xhr.onreadystatechange=function(){
+                          if(this.readyState!==4)return;
+                          var num=this.responseText;
+                          if(num>=0) {alert("您前方还有"+num+"人在排队，请耐心等待！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
+                          if(num<0) {alert("请不要重复取号，点击下方可查询当前状态！");window.location="<?php  echo  base_url('guest/g_home')  ?>";}
+                        };
                 }
                        
                         var obj=document.getElementById("dv1");
@@ -113,20 +113,25 @@
                         xhr.open("POST","<?php  echo  base_url('guest/g_home/check_num')  ?>");
                         xhr.send(data);
                         xhr.onreadystatechange=function(){
-                         var p=parseInt(this.responseText);
+                        var p=this.responseText;
                          if(p>0){
                                 alert("排队完成！您的座位号为"+p+"，请开始点餐");
                                 window.location="<?php  echo  base_url('guest/g_order')  ?>"
                                 
                          }
-                         if(p==0){
-                                alert("您还未取号，请返回填写相关信息！如已取号，表示您正在被排号中，请耐心等待。");
+                         else if(p=="error"){
+                                alert("您还未取号，请返回填写相关信息！");
                                 window.location="<?php  echo  base_url('guest/g_home')  ?>"
                          }
-                         if(p<0){
+                         else if(p<0&&p==0){
                                 alert("您前方还有"+Math.abs(p)+"人在排队，请耐心等待！");
                                window.location="<?php  echo  base_url('guest/g_home')  ?>"
                          }
+                         else if(p=="iperror"){
+                                alert("请使用取号设备连接本店wifi查询状态！");
+                               window.location="<?php  echo  base_url('guest/g_home')  ?>"
+                         }
+
                         };
                 };
                       

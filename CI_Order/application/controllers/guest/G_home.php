@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 ini_set("display_errors", 0);
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -25,6 +27,7 @@ class G_home extends CI_Controller {
       $name = $result['name'];
       $phone = $result['con'];
       $num = (int)$result['sel'];
+      $userip = $this->input->ip_address();
       $this->load->model('G_model','G_model');
       $a = $this->G_model->check_phone($phone);
       if(!$a){
@@ -47,14 +50,13 @@ class G_home extends CI_Controller {
    				$type = "d";
    				break;
    		}
-   		$result = $this->G_model->take_num($name,$phone,$type,$vip);
+   		$result = $this->G_model->take_num($name,$phone,$type,$vip,$userip);
    		if($result){
    			
    			$phone = $this->session->userdata('phone');
    			$w_num = $this->G_model->check_num($phone);
         /*利用ip+cookie标识用户*/
-        // $uerip = $this->input->ip_address();
-        // $this->input->set_cookie("userip",$userip,60);   	
+        $this->input->set_cookie("userip",$userip,3600);	
         echo $w_num;
    			
    		}
@@ -64,21 +66,29 @@ class G_home extends CI_Controller {
  
 /*状态查询*/
     public function check_num(){
+       $info = file_get_contents("php://input");
+      $ip = $this->input->cookie("userip");
 		  $this->load->model('G_model','G_model');
-      $info = file_get_contents("php://input");
+      $reid = $this->G_model->check_ip($ip);
    		$w_num = $this->G_model->check_num($info);
-   	  $statu = $this->G_model->take_table($info);
-      $table = $statu->table_id;
-       if($w_num == 0 && $table) {
+      if($w_num==(-1)){
+        echo "error";
+        exit;
+      }
+      else{
+        if($reid->phone==$info){
+   	    $statu = $this->G_model->take_table($info);
+        $table = $statu->table_id;
+        if($w_num == 0 && $table) {
         $this->load->library('session');
-        $this->session->set_userdata('guestid',$guestid);
+        $this->session->set_userdata('guestid',$info);
         echo $table;
-      }
-   		 else if($w_num==(-1)) echo 0;
-   		 /*缺少等候人数为0但未排座的判断*/
-       else echo 0-$w_num;  
-      }
-
+          }
+        else echo 0-$w_num;  
+        }  
+    else echo "iperror";
+    }
+}
 }
 
 

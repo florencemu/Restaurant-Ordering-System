@@ -76,6 +76,15 @@ public function check_out($id,$price,$admin){
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
+/*按时间筛选账单*/
+  public function select_bill($begin,$end){
+    $sql = "SELECT guest.id,guest.name,guest.phone,guest.table_id,orderlist.total_price,orderlist.time,orderlist.discount,orderlist.waiter_id FROM `guest`,`orderlist` WHERE orderlist.time >='$begin' AND orderlist.time <='$end' AND guest.statu =3 AND guest.id = orderlist.id";
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+
+
+
+  }
 /*查询顾客账单信息*/
   public function guest_bill($id){
     $sql = "SELECT guest.name,orderlist.time,orderlist.food_list FROM `guest`,`orderlist` WHERE guest.id = '$id'AND orderlist.id = guest.id AND guest.statu = '3' ";

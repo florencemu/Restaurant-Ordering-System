@@ -12,11 +12,18 @@ class G_model extends CI_Model{
 	
 	/*取号*/
 	
-	public function take_num($name,$phone,$type,$vip){
-		$sql = "INSERT INTO `guest`(`name`,`phone`,`type`,`statu`,`vip`) VALUES ('$name','$phone','$type','0','$vip')";
+	public function take_num($name,$phone,$type,$vip,$userip){
+		$sql = "INSERT INTO `guest`(`name`,`phone`,`type`,`statu`,`vip`,`ip`) VALUES ('$name','$phone','$type','0','$vip','$userip')";
 		$result = $this->db->query($sql); 
 		return $result;
 
+	}
+	/*判断ip是否匹配*/
+
+	public function check_ip($ip){
+		$sql = "SELECT `phone` FROM `guest` WHERE `ip`='$ip'";
+		$result = $this->db->query($sql)->row();
+		return $result;
 	}
 
 	/*查询就餐记录*/
@@ -44,7 +51,7 @@ class G_model extends CI_Model{
 	}
 	/*状态查询*/
 	public function check_num($phone){
-		$sql = "SELECT time,type FROM `guest` WHERE `phone` = '$phone'";
+		$sql = "SELECT time,type FROM `guest` WHERE `phone` = '$phone' AND `statu`<3 ";
 		$result = $this->db->query($sql)->row();
 		if($result===NULL) return -1;
 		$time = $result->time;
