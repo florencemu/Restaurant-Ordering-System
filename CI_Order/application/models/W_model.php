@@ -87,7 +87,7 @@ public function check_out($id,$price,$admin){
   }
 /*查询顾客账单信息*/
   public function guest_bill($id){
-    $sql = "SELECT guest.name,orderlist.time,orderlist.food_list FROM `guest`,`orderlist` WHERE guest.id = '$id'AND orderlist.id = guest.id AND guest.statu = '3' ";
+    $sql = "SELECT guest.name,guest.phone,orderlist.time,orderlist.food_list,orderlist.time,orderlist.waiter_id,orderlist.discount FROM `guest`,`orderlist` WHERE guest.id = '$id'AND orderlist.id = guest.id AND guest.statu = '3' ";
   $result = $this->db->query($sql)->row();
   return $result;
 

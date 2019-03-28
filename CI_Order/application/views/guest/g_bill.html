@@ -1,61 +1,7 @@
 <html>
 
 <head>
-<h2>流水单号<?php  $this->load->library('session'); $id = $this->session->userdata('id'); echo $id;?>的账单明细</h2>
-<button id="out">返回</button><br>
-==============================================================================
-
-<table id="tab1" border="1" width="500" cellspacing="1" >
-	<!-- 同样这里我将传给你json格式数据，你解析之后填入table中 -->
-	<thead>
-	<tr>
-			<th>名称</th>
-			<th>数量</th>
-			<th>单价</th>
-			<th>分类</th>
-			<th>小计</th>
-			</tr>
-	</thead>
-		<tbody>
-		 		<?php  foreach($food_info as $item): ?>
-		 	<tr>
-		 		<td><?php echo $item['food_name'] ?></td>
-		 		<td><?php echo $item['num'] ?></td>
-				<td><?php echo $item['food_price'] ?></td>
-				<td><?php echo $item['type'] ?></td>
-				<td><?php echo $item['food_price']*$item['num'] ?></td>
-			</tr>
-			<?php  $sum+=$item['food_price']*$item['num']; $this->load->library('session');$this->session->set_userdata('sum',$sum);?>
-		<?php endforeach;?>
-		</tbody>
-</table>
-<br>
-==============================================================================
-<br>
-<p>消费合计：<b><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元 </p>
-<!-- 这里差折扣字段，我将单独包装在json中传给你，你解析后填写在这里即可。 -->
-<p>折扣：</p>
-<p>应收金额：<b id="sum"><?php $this->load->library('session');$sum=$this->session->userdata('sum');echo $sum?></b>元</p>
-
-
-</head>
-
-
-
-<script type="text/javascript">
-	
-
- document.getElementById("out").onclick=function(){
- 	window.location="<?php  echo  base_url('waiter/w_home/history_bill')  ?>"
- 
- }
-
-</script>
-
-
-
-
-
+<h2>66666666</h2>
 
 
 </html>

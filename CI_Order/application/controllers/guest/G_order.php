@@ -27,8 +27,7 @@ class G_order extends CI_Controller{
 
 
 		*/
-		$ 
-
+		
 
 
 

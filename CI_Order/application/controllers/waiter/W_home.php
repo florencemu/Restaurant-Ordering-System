@@ -4,15 +4,15 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 ini_set("display_errors", 0);
 error_reporting(E_ALL ^ E_NOTICE);
 
-class W_home extends CI_Controller {
+class W_home extends CI_Controller 
+{
   /*前台主页*/
     public function index()
     {
       
     $this->load->view('waiter/w_home.html');
     }
-
-/*前台登录*/
+    /*前台登录*/
     public function login(){
       $info = file_get_contents("php://input");
       $result =json_decode($info,TRUE);
@@ -33,7 +33,7 @@ class W_home extends CI_Controller {
       else echo -1;
 
     }
-/*座位一览*/
+  /*座位一览*/
     public function show_table(){
         $this->load->model('W_model','W_model');
         $data['table'] = $this->W_model->show_table();
@@ -42,8 +42,7 @@ class W_home extends CI_Controller {
         $this->load->view('waiter/w_table.html',$data);
 
     }
-
- /*选座位*/
+/*选座位*/
    
   public function choose_table(){
         $table_id = $this->input->get('id');
@@ -63,9 +62,8 @@ class W_home extends CI_Controller {
           echo "<script>alert('该区目前没有等待用户，无法排座！');parent.location.href='/waiter/W_home/show_table';</script>";
 
 
-  } 
-
-/*显示账单*/
+  }
+  /*显示账单*/
     public function show_bill()
     {
       // $result = file_get_contents("php://input");
@@ -122,9 +120,6 @@ class W_home extends CI_Controller {
 
       $this->load->view('waiter/w_check.html',$data);   
     }
-  
-    
-
 /*收银*/
 /*人工折扣生效条件：生日当天8折优惠*/
 public function check_out(){
@@ -142,7 +137,9 @@ public function check_out(){
   else echo 0;
 }
 
-/*打印流水帐目*/
+
+
+ /*打印流水帐目*/
 public function history_bill(){
 
   $this->load->view('waiter/w_bill.html');
@@ -150,6 +147,7 @@ public function history_bill(){
 }
 
 public function show_history_bill(){
+
   $this->load->model('W_model','W_model');
   $data['bill_list'] = $this->W_model->history();
   $result = json_encode($data,JSON_UNESCAPED_UNICODE);
@@ -171,40 +169,48 @@ public function show_history_bill(){
       echo $result;
   }
 
-
-
-  /*历史账单明细*/
-// public function guest_bill(){
-//   $id = $this->input->get('id');
-//   $this->load->library('session');
-//   $this->session->set_userdata('id',$id);
-//   $this->load->model('W_model','W_model');
-//   $info = $this->W_model->guest_bill($id);
-//   // var_dump($info);die;
-  
-//   $foodlist = explode(',', $info->food_list,-1);
-//   // var_dump($foodlist);die;
-//       $i = count($foodlist);
-//       /*按foodid排序防止统计出错*/
-//       asort($foodlist);
-//       /*统计菜品数量*/
-//       $num = array_count_values($foodlist);
-//       /*拼接sql*/
-//       while($foodlist[$i-1]){
-//         $sql.="`food_id`="."'".$foodlist[$i-1]."'"." or ";
-//         --$i;
-//         }
-//       $sql = substr($sql,0,strlen($sql)-3);
-
-//       $foodinfo = $this->W_model->show_bill($sql);
-//       $newnum = array();
-//       foreach ($num as $a) {
-//               $newnum[]=$a;
-//       }
-//       foreach($newnum as $k=>$v){
-//               $foodinfo[$k]['num'] = $v;
-//       } 
-  // $this->load->view('guest/g_bill.html',$data);
+/*加载个人账单*/
+public function show_g_bill_view(){
+  $this->load->view('guest/g_bill.html');
 
 }
+
+/*打印顾客个人账单*/
+public function show_g_bill(){
+ $id = file_get_contents("php://input");
+      /*获取账单*/
+      $this->load->model('W_model','W_model');
+      $info = $this->W_model->guest_bill($id);
+      $foodlist = explode(',', $info->food_list,-1);
+      $i = count($foodlist);
+      /*按foodid排序防止统计出错*/
+      asort($foodlist);
+      /*统计菜品数量*/
+      $num = array_count_values($foodlist);
+      /*拼接sql*/
+      while($foodlist[$i-1]){
+        $sql.="`food_id`="."'".$foodlist[$i-1]."'"." or ";
+        --$i;
+        }
+      $sql = substr($sql,0,strlen($sql)-3);
+      $foodinfo = $this->W_model->show_bill($sql);
+      $newnum = array();
+      foreach ($num as $a) {
+              $newnum[]=$a;
+      }
+      foreach($newnum as $k=>$v){
+              $foodinfo[$k]['num'] = $v;
+      } 
+      $data= $foodinfo;
+      $json1 = json_encode($data,JSON_UNESCAPED_UNICODE);
+      $data2 = array($info->name,$info->phone,$info->time,$info->discount,$info->waiter_id);
+      $json2 = json_encode($data2,JSON_UNESCAPED_UNICODE);
+      echo $json1;
+      echo $json2;
+   
+}
+
+
+}
+
 
