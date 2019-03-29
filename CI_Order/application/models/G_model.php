@@ -72,22 +72,6 @@ class G_model extends CI_Model{
 		}
 		return $result;
 	} 
-/*更新桌号*/
-	/*点餐*/
-
-	// public function order($food_id){
-
-
-
-
-
-	// }
-	
-	
-
-
-
-	// }
 
 
 
