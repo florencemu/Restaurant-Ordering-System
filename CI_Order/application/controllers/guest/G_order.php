@@ -1,6 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+ini_set("display_errors", 0);
+error_reporting(E_ALL ^ E_NOTICE);
 
 class G_order extends CI_Controller{
 	
@@ -18,19 +20,21 @@ class G_order extends CI_Controller{
 /*点餐*/
 
 	public function order(){
-		$result = file_get_contents("php://input");
-		$info = json_decode($result);
+		// $result = file_get_contents("php://input");
+		// $info = json_decode($result);
+		$result = '{"info": [{"id": "1","num": "2"}, {"id": "2","num": "3"}, {"id": "6","num": "1"}]}';
+	$info = json_decode($result);
+	
 	/*取id，循环num次写入array()，取下一个*/
 		$list[] = array();
-		foreach ($info as $key => $value) {
-			$id = $info->food_id;
-			$num  = $info->num;
-			for($i=0;$i<$info->num;$i++)
-				$list[$i] = $info->id; 
+		foreach ($info->info as $a) {
+			for($i=0;$i<$a->num;$i++){
+				$list[$i] = $a->id; 
+				$foodlist.=$list[$i].",";
+			}
 			
 		}
-		$foodlist = implode(',', $list);
-		$foodlist = $foodlist.",";
+		var_dump($foodlist);
 		$this->load->model('Food_model'，'Food_model');
 		$result = $this->food_model->order($id,$foodlist);
 		if($result) echo 1;
