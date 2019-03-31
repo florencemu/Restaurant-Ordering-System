@@ -171,6 +171,7 @@ public function show_history_bill(){
 
 /*加载个人账单*/
 public function show_g_bill_view(){
+
   $this->load->view('guest/g_bill.html');
 
 }
@@ -203,7 +204,7 @@ public function show_g_bill(){
       } 
       $data= $foodinfo;
       $json1 = json_encode($data,JSON_UNESCAPED_UNICODE);
-      $data2 = array($info->name,$info->phone,$info->time,$info->discount,$info->waiter_id);
+      $data2['info'] = array('name' => $info->name,'phone' => $info->phone,'time' => $info->time,'discount' => $info->discount,'id' => $info->waiter_id );
       $json2 = json_encode($data2,JSON_UNESCAPED_UNICODE);
       echo $json1;
       echo $json2;
